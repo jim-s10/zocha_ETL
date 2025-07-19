@@ -1,0 +1,315 @@
+version: 2
+seeds:
+  - name: area
+    config:
+      column_types:
+        areaId: int
+        disName: varchar(255)
+        
+  - name: client_order_apply_cancel_form
+    config:
+      column_types:
+        clientOrderId: varchar(17)
+        applyDate: varchar(14)
+        applyStatus: varchar(1)
+        moneyType: varchar(10)
+        note: varchar(300)
+        updateDate: varchar(14)
+        updator: varchar(20)
+        clientUserBankName: varchar(20)
+        clientUserBankAccount: varchar(25)
+        plusFee: varchar(1)
+        clientUserBankBranch: varchar(30)
+        clientUserName: varchar(50)
+        refund: int
+        cancelReasonType: varchar(1)
+        userDisName: varchar(50)
+        userPhone: varchar(45)
+        
+  - name: client_order_detail
+    config:
+      column_types:
+        rowId: int
+        parentDocId: varchar(45)
+        prodId: varchar(45)
+        price: int
+        qty: int
+        catId: int
+        plusInsurance: varchar(1)
+        carNo: varchar(10)
+        prodPriceRowId: int
+        prodStockRowId: int
+        insurancePrice: int
+        accessoriesHelmet: int
+        accessoriesRaincoat: int
+        accessoriesHelmetFull: int
+        fromVoltage: varchar(45)
+        toVoltage: varchar(45)
+        fromSoc: varchar(45)
+        toSoc: varchar(45)
+        
+  - name: client_order_history
+    config:
+      column_types:
+        clientOrderHistoryId: int
+        clientOrderId: varchar(45)
+        updateDate: varchar(14)
+        flow: varchar(4)
+        updator: varchar(45)
+        note: varchar(300)
+        
+  - name: client_order_questionnaire
+    config:
+      column_types:
+        rowId: int
+        clientOrderId: varchar(20)
+        getFrom: varchar(1)
+        usePurpose: varchar(1)
+        updateDate: varchar(14)
+        updator: varchar(60)
+        
+  - name: client_order_trans
+    config:
+      column_types:
+        rowId: int
+        clientOrderId: varchar(20)
+        amt: int
+        qty: int
+        type: varchar(10)
+        disName: varchar(45)
+        response: text
+        updateDate: varchar(14)
+        updator: varchar(20)
+        returnUrl: text
+        moneyType: varchar(10)
+        payId: varchar(30)
+        merchantOrderNo: varchar(30)
+        status: varchar(10)
+        moneyAccount: int
+        moneyTypeExtend: varchar(10)
+        icpRequestData: varchar(500)
+        
+  - name: client_order
+    config:
+      column_types:
+        clientOrderId: varchar(45)
+        clientUserId: text # varchar(12)
+        createDate: varchar(14)
+        flow: varchar(4)
+        price: int
+        finishDate: varchar(14)
+        updateDate: varchar(14)
+        updator: varchar(45)
+        storeId: int
+        disName: varchar(45)
+        sDate: varchar(14)
+        eDate: varchar(14)
+        realStartDate: varchar(14)
+        realEndDate: varchar(14)
+        startDistance: int
+        endDistance: int
+        payId: varchar(45)
+        prePrice: int
+        payDate: varchar(16)
+        plusPrice: int
+        checkTitle: varchar(45)
+        checkUniNo: varchar(45)
+        cancelNote: varchar(200)
+        email: varchar(45)
+        clientType: varchar(3)
+        reserveNote: varchar(200)
+        clientNote: varchar(200)
+        deposit: int
+        returnStoreId: int
+        rentDateType: varchar(4)
+        vatNo: text # varchar(12)
+        vatCompanyTitle: varchar(45)
+        promotionCode: varchar(20)
+        discount: int
+        depositPayMethod: varchar(10)
+        endPayMethod: varchar(10)
+        beforePay: varchar(1)
+        beforePayMethod: varchar(10)
+        beforePrice: int
+        beforeOrginPrice: int
+        beforeDiscount: int
+        cancelReasonType: varchar(1)
+        qty: int
+        carrierNum: varchar(8)
+        getType: varchar(2)
+        rentKeyBoxId: varchar(2)
+        returnKeyBoxId: varchar(2)
+        ecoNo: text # varchar(12)
+        asiaMilesId: text # varchar(12)
+        plusCancelInsurance: int
+        
+  - name: client_user_promotion_trans
+    config:
+      column_types:
+        rowId: int
+        clientUserId: varchar(20)
+        promotionRowId: varchar(40)
+        used: varchar(1)
+        getDate: varchar(14)
+        usedDate: varchar(14)
+        cleintOrderId: varchar(45)
+        updateDate: varchar(14)
+        updator: varchar(60)
+        endDate: varchar(14)
+        phone: varchar(45)
+        
+  - name: client_user
+    config:
+      column_types:
+        clientUserId: varchar(20)
+        disName: varchar(60)
+        phone: varchar(45)
+        sex: varchar(300)
+        birthday: varchar(45)
+        addr: varchar(300)
+        pwd: varchar(255)
+        emrContact: varchar(255)
+        emrContactPhone: varchar(255)
+        email: varchar(255)
+        updateDate: varchar(20)
+        updator: varchar(14)
+        pic1: varchar(200)
+        pic2: varchar(200)
+        pic3: varchar(200)
+        pic4: varchar(200)
+        adminNote: varchar(200)
+        boundleCreditCard: varchar(12)
+        createDate: varchar(14)
+        FrOrderId: varchar(45)
+        country: varchar(4)
+        payTokenValue: varchar(120)
+        card4No: varchar(4)
+        lineId: varchar(200)
+        facebookId: varchar(50)
+        recognizeResult: varchar(10)
+        recognizeDate: varchar(14)
+        registerDate: varchar(14)
+        createStoreId: int
+        motoLicense: varchar(1)
+        carrierNum: varchar(8)
+        ban: varchar(1)
+        banNote: varchar(255)
+        tokenTerm: varchar(45)
+        kycRatioRs: varchar(45)
+        
+  - name: prod_cat
+    config:
+      column_types:
+        prodCatId: int
+        disName: varchar(20)
+        updator: varchar(255)
+        updateDate: varchar(255)
+        descp: varchar(400)
+        pic: varchar(50)
+        status: varchar(4)
+        rentDateType: varchar(4)
+        isEcoProd: varchar(2)
+        isPbgnProd: varchar(2)
+        
+  - name: prod
+    config:
+      column_types:
+        prodId: varchar(40)
+        carNo: text # varchar(12)
+        disName: varchar(45)
+        catProdId: int
+        storeId: int
+        plusInsurance: varchar(4)
+        birthday: varchar(10)
+        buyDate: varchar(14)
+        buyDistance: int
+        nowDistance: int
+        status: varchar(5)
+        updateDate: varchar(14)
+        updator: varchar(20)
+        prodCatId: varchar(255)
+        pic1: varchar(200)
+        pic2: varchar(200)
+        pic3: varchar(200)
+        pic4: varchar(200)
+        officeImg: varchar(200)
+        describeImg: varchar(200)
+        prodPriceRowId: int
+        monthStartDistance: int
+        clientOrderId: varchar(45)
+        contractMonthOfDate: int
+        engineId: varchar(90)
+        color: varchar(5)
+        insuranceDueDate: varchar(8)
+        lat: varchar(20)
+        lng: varchar(20)
+        locatUpdateDate: varchar(45)
+        enabledDistance: varchar(1)
+        ccType: varchar(1)
+        carNoDisName: text # varchar(12)
+        contractMileage: int
+        deductibleMileage: int
+        keyBoxDoorId: varchar(2)
+        ecoAuto: text # varchar(12)
+        enabledEco: varchar(1)
+        maintainDistance: int
+        maintainDays: varchar(4)
+        lastMaintainDistance: int
+        lastMaintainDate: varchar(20)
+        carOwner: varchar(20)
+        statusChangeMsg: text
+        statusChangeDate: varchar(14)
+        iotType: varchar(45)
+        isPutKeyBox: varchar(2)
+        
+  - name: store
+    config:
+      column_types:
+        storeId: int
+        disName: text # varchar(45)
+        addr: varchar(255)
+        areaId: int
+        gpsLat: varchar(20)
+        gpsLng: varchar(20)
+        createDate: varchar(8)
+        phone: varchar(20)
+        status: int
+        pic: varchar(40)
+        updateDate: text # varchar(45)
+        updator: text # varchar(45)
+        descp: varchar(400)
+        payCash: varchar(1)
+        payCredit: varchar(1)
+        payLINE: varchar(1)
+        payIcp: varchar(1)
+        withoutMofunInvoice: varchar(1)
+        payEndPriceAtRent: varchar(1)
+        alertEmail: varchar(200)
+        alertChannel: varchar(500)
+        priceType: varchar(20)
+        saleInsuranceAbled: varchar(1)
+        frontInsuranceDesc: varchar(500)
+        checkOnlyClientLicense: varchar(2)
+        checkAdminUserCode: varchar(1)
+        frontDisName: text # varchar(45)
+        outsideServiceReturn: varchar(1)
+        frontRefundRuleDesc: varchar(500)
+        pdfDisName: text # varchar(45)
+        isFrontRentable: varchar(1)
+        keyBoxId: varchar(10)
+        isNoStaffStore: varchar(1)
+        storeGroupId: int
+        oneDayRentAble: varchar(1)
+        isForeignRentOnSite: varchar(1)
+        isShowStoreInfoBtn: text # varchar(45)
+        isPaymentRequired: text # varchar(45)
+        entranceType: text # varchar(45)
+        exitType: text # varchar(45)
+        memoNote: text # varchar(45)
+        skipProdImgType: text # varchar(45)
+        payEndPriceAtDeposit: varchar(2)
+        
+  - name: promotion
+    config: 
+      column_types:
+        updateDate: varchar(45)

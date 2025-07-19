@@ -1,0 +1,29 @@
+services:
+    postgres:
+        image: postgres:16
+        container_name: zocha_testing_postgres
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: postgres
+            # Set timezone to UTC+8 (Asia/Taipei)
+            TZ: Asia/Taipei
+            PGTZ: Asia/Taipei
+        ports:
+            - "5432:5432"
+        volumes:
+            - zocha_postgres_data:/var/lib/postgresql/data
+            - ./postgresql.conf:/etc/postgresql/postgresql.conf
+            - ./init-scripts:/docker-entrypoint-initdb.d
+        command: postgres -c config_file=/etc/postgresql/postgresql.conf
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        restart: unless-stopped
+        shm_size: 1024mb
+
+volumes:
+    zocha_postgres_data:
+        driver: local
