@@ -21,7 +21,8 @@ WITH base AS (
         "updateDate",
         date_part('month', birthday) AS month_of_birthday,
         date_part('year', current_date)
-        - date_part('year', birthday) AS years_old
+        - date_part('year', birthday) AS years_old,
+        "lineId"
     FROM {{ ref('ig_client_user') }}
 )
 

@@ -34,6 +34,7 @@ final_user_attributes AS (
         CAST(scu.phone AS VARCHAR(45)) AS phone,
         CAST(scu.sex AS VARCHAR(300)) AS gender,
         CAST(scu.birthday AS VARCHAR(45)) AS birthday,
+        CAST(scu."lineId" AS VARCHAR(200)) AS lineId,
         CAST(scu.month_of_birthday AS SMALLINT) AS month_of_birthday,
         CAST(scu.years_old AS SMALLINT) AS years_old,
         CAST(scu."createDate" AS VARCHAR(14)) AS "createDate",
