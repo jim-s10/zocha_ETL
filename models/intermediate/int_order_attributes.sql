@@ -18,7 +18,7 @@ WITH auto_cancel_order AS (
     WHERE co.flow = '1200'AND coh.flow IN ('10', '50')
     GROUP BY 1
     HAVING COUNT(*) > 1
-)
+),
 
 base AS (
     SELECT
@@ -32,8 +32,8 @@ base AS (
         co."sDate" AS renting_start_date, --訂單金額
         s.area_name, --租借方案
         s.store_name,--店家類型
-        coq."usePurpose" AS use_purpose, --租車的時段
-        cot."moneyType" AS payment_method, --區域
+        -- coq."usePurpose" AS use_purpose, --租車的時段
+        -- cot."moneyType" AS payment_method, --區域
         co."sDate" AS expect_renting_time, --站點
         (co."realEndDate" - co."realEndDate") AS renting_period, --預約原因
         CASE
@@ -71,10 +71,6 @@ base AS (
         {{ ref('ig_client_order_questionnaire') }} AS coq
         ON
             co."clientOrderId" = coq."clientOrderId"
-    LEFT JOIN
-        {{ ref('ig_client_order_trans') }} AS cot --TODO: 有多重歷史，需要確認
-        ON
-            co."clientOrderId" = cot."clientOrderId"
     LEFT JOIN {{ ref('ig_promotion') }} AS p ON co."promotionCode" = p.code
     LEFT JOIN
         {{ ref('ig_client_order_detail') }} AS cod
