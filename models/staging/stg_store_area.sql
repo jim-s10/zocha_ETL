@@ -2,7 +2,7 @@
   config(
     materialized='incremental',
     unique_key='"storeId"',
-    incremental_strategy='delete+insert',
+    incremental_strategy='merge',
     tags=['staging']
   )
 }}

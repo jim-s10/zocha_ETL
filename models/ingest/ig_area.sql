@@ -2,7 +2,7 @@
   config(
     materialized='table',
     unique_key='"areaId"',
-    incremental_strategy='delete+insert',
+    incremental_strategy='merge',
     tags=['ingest']
   )
 }}

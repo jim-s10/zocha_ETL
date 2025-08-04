@@ -2,7 +2,7 @@
   config(
     materialized='incremental',
     unique_key='"clientOrderHistoryId"',
-    incremental_strategy='delete+insert',
+    incremental_strategy='merge',
     tags=['ingest']
   )
 }}
