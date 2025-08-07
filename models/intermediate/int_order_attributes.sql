@@ -37,9 +37,9 @@ base AS (
         , co."eDate" -- 租車結束時間
         , (co."realEndDate" - co."realStartDate") AS renting_period -- 實際租借時長
         , CASE
-            WHEN co."rentDateType" = '1' THEN 1 -- 短租
-            WHEN co."rentDateType" = '2' THEN 2 -- 長租/環島
-            ELSE 0 --測試資料看到有NULL以防萬一
+            WHEN co."rentDateType" = '1' THEN '短租' -- 短租
+            WHEN co."rentDateType" = '2' THEN '長租/環島' -- 長租/環島
+            ELSE '其他' -- 其他
         END AS renting_type -- 租借方案(短租/長租)
         , CASE
             WHEN s."isNoStaffStore" = 'F' THEN false
