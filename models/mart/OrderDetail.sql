@@ -23,6 +23,7 @@ WITH base AS (
         , CAST(ioa."usePurpose" AS VARCHAR(1)) AS reason_to_use -- 使用目的
         , CAST(ioa."sDate" AS TIMESTAMP) AS renting_start_date -- 租車開始時間
         , CAST(ioa."eDate" AS TIMESTAMP) AS renting_end_date -- 租車結束時間
+        , CAST(ioa."updateDate" AS TIMESTAMP) AS update_date -- 訂單更新時間
 
     FROM {{ ref('int_order_attributes') }} AS ioa
     WHERE
@@ -32,3 +33,6 @@ WITH base AS (
 )
 
 SELECT * FROM base
+{% if is_incremental() %}
+    WHERE "update_date" > (SELECT MAX("update_date") FROM {{ this }})
+{% endif %}

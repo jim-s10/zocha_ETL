@@ -15,7 +15,13 @@ WITH base AS (
         , cot.type
         , cot."disName"
         , cot.response
-        , cot."updateDate"
+        , CASE
+            WHEN
+            cot."updateDate" IS NOT NULL
+            AND cot."updateDate" != ''
+            AND cot."updateDate" ~ '^[0-9]+$'
+            THEN TO_TIMESTAMP(cot."updateDate", 'YYYYMMDDHH24MISS')
+        END AS "updateDate"
         , cot.updator
         , cot."returnUrl"
         , cot."moneyType"
