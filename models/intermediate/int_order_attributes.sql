@@ -42,8 +42,8 @@ base AS (
             ELSE 0 --測試資料看到有NULL以防萬一
         END AS renting_type -- 租借方案(短租/長租)
         , CASE
-            WHEN s."isNoStaffStore" = 'F' THEN true
-            ELSE false
+            WHEN s."isNoStaffStore" = 'F' THEN false
+            ELSE true
         END AS store_type -- 店家類型(無人/門市)
         , COALESCE(p."disName", '') AS promotion_code_name
         , CASE

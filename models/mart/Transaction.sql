@@ -1,31 +1,51 @@
 {{
   config(
     materialized='incremental',
-    unique_key='surrogate_key',
+    unique_key='member_id',
     incremental_strategy='merge',
     tags=['mart']
   )
 }}
 
-WITH base AS (
+
+WITH base_user_attributes AS (
     SELECT
-    CAST(CAST(scot."clientOrderId" AS VARCHAR(45)) || '-' || CAST(scot."type" AS VARCHAR(45)) AS VARCHAR(91)) AS surrogate_key
-    , CAST(scot."clientOrderId" AS VARCHAR(45)) AS order_number
-    , CAST(ioa."clientUserId" AS VARCHAR(20)) AS member_id
-    , CAST(ioa."partition" AS SMALLINT) AS "partition"
-    , CAST(scot."type" AS VARCHAR(10)) AS transaction_stage -- 付款時間點
-    , CAST(scot."moneyType" AS VARCHAR(10)) AS transaction_type -- 付款方式
-    , CAST(scot."updateDate" AS TIMESTAMP) AS update_date -- 訂單更新時間
-FROM {{ ref('stg_client_order_trans') }} AS scot
-    LEFT JOIN {{ ref('int_order_attributes') }} AS ioa
-        ON scot."clientOrderId" = ioa."clientOrderId"
-WHERE
-    ioa.is_auto_canceled = 0
-    AND ioa.is_canceled = 0
-    AND ioa.is_applied_cancel = 0
+        "clientUserId"
+        , COUNT(*) AS promotion_code_received_cnt
+    FROM {{ ref('ig_client_user_promotion_trans') }}
+    GROUP BY "clientUserId"
+),
+
+user_attributes AS (
+    SELECT
+        soa."clientUserId"
+        , COUNT(DISTINCT soa."clientOrderId") AS order_cnt --累計租借金額
+        , SUM(soa.price) AS total_price --加購雨衣次數
+        , SUM(soa."accessoriesRaincoat") AS total_raincoat_cnt --平均租借金額
+        , AVG(soa.price) AS avg_price --訂單取消次數
+        , SUM(soa.is_canceled) AS cancel_cnt --自動取消次數
+        , SUM(soa.is_auto_canceled) AS auto_cancel_cnt --優惠券使用次數
+        , SUM(soa.promotion_code_usage_cnt) AS promotion_code_usage_cnt -- 優惠券領用次數
+    FROM {{ ref('int_order_attributes') }} AS soa
+    GROUP BY soa."clientUserId"
+),
+
+final_user_attributes AS (
+    SELECT
+        CAST(scu."clientUserId" AS VARCHAR(20)) AS member_id
+        , CAST(scu.partition AS SMALLINT) AS "partition"
+        , CAST(ua.order_cnt AS SMALLINT) AS order_cnt --租車次數
+        , CAST(ua.total_price AS INTEGER) AS total_price --累計租借金額
+        , CAST(ua.avg_price AS DECIMAL(20,2)) AS average_purchased_price --平均訂單金額
+        , CAST(bua.promotion_code_received_cnt AS SMALLINT) AS promotion_code_received_cnt --優惠券領用次數
+        , CAST(ua.total_raincoat_cnt AS SMALLINT) AS total_raincoat_cnt --加購雨衣次數
+        , CAST(ua.cancel_cnt AS SMALLINT) AS cancel_cnt --訂單取消次數
+        , CAST(ua.auto_cancel_cnt AS SMALLINT) AS auto_cancel_cnt --自動取消數量
+        , CAST(ua.promotion_code_usage_cnt AS SMALLINT) AS promotion_code_usage_cnt --優惠券使用次數
+    FROM {{ ref('stg_client_user') }} AS scu
+    LEFT JOIN user_attributes AS ua ON scu."clientUserId" = ua."clientUserId"
+    LEFT JOIN base_user_attributes AS bua ON scu."clientUserId" = bua."clientUserId"
 )
 
-SELECT * FROM base
-{% if is_incremental() %}
-    WHERE "update_date" > (SELECT MAX("update_date") FROM {{ this }})
-{% endif %}
+SELECT *
+FROM final_user_attributes
