@@ -10,10 +10,10 @@
 
 WITH base AS (
     SELECT
-        "clientOrderId",
-        "type",
-        "moneyType",
-        "updateDate"
+        "clientOrderId"
+        , "type"
+        , "moneyType"
+        , "updateDate"
     FROM
         {{ ref('ig_client_order_trans') }}
     WHERE status = 'SUCCESS'
@@ -26,9 +26,10 @@ WITH base AS (
 
 
 SELECT
-    "clientOrderId",
-    "type",
-    "moneyType"
+    "clientOrderId"
+    , "type"
+    , "moneyType"
+    , "updateDate"
 FROM
     final
 WHERE rn = 1

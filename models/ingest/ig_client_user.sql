@@ -8,41 +8,41 @@
 }}
 WITH base AS (
     SELECT
-        "clientUserId",
-        "disName",
-        phone,
-        sex,
-        addr,
-        pwd,
-        "emrContact",
-        "emrContactPhone",
-        email,
-        "updateDate",
-        updator,
-        "adminNote",
-        -- "pic1",
-        -- "pic2",
-        -- "pic3",
-        -- "pic4",
-        "boundleCreditCard",
-        "createDate",
-        "FrOrderId",
-        country,
-        "payTokenValue",
-        "card4No",
-        "lineId",
-        "facebookId",
-        "recognizeResult",
-        "recognizeDate",
-        "registerDate",
-        "createStoreId",
-        "motoLicense",
-        "carrierNum",
-        ban,
-        "banNote",
-        "tokenTerm",
-        "kycRatioRs",
-        CASE
+        "clientUserId"
+        , "disName"
+        , phone
+        , sex
+        , addr
+        , pwd
+        , "emrContact"
+        , "emrContactPhone"
+        , email
+        , TO_TIMESTAMP("updateDate", 'YYYYMMDDHH24MISS') AS "updateDate"
+        , updator
+        , "adminNote"
+        --, "pic1"
+        --, "pic2"
+        --, "pic3"
+        --, "pic4"
+        , "boundleCreditCard"
+        , TO_TIMESTAMP("createDate", 'YYYYMMDDHH24MISS') AS "createDate"
+        , "FrOrderId"
+        , country
+        , "payTokenValue"
+        , "card4No"
+        , "lineId"
+        , "facebookId"
+        , "recognizeResult"
+        , "recognizeDate"
+        , TO_TIMESTAMP("registerDate", 'YYYYMMDDHH24MISS') AS "registerDate"
+        , "createStoreId"
+        , "motoLicense"
+        , "carrierNum"
+        , ban
+        , "banNote"
+        , "tokenTerm"
+        , "kycRatioRs"
+        , CASE
             -- Handles 'YYYY-MM-DD' format
             WHEN
                 birthday LIKE '____-___-__'

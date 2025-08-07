@@ -8,24 +8,24 @@
 }}
 WITH base AS (
     SELECT
-        cod."rowId",
-        cod."parentDocId",
-        cod."prodId",
-        cod.price,
-        cod.qty,
-        cod."catId",
-        cod."plusInsurance",
-        cod."carNo",
-        cod."prodPriceRowId",
-        cod."prodStockRowId",
-        cod."insurancePrice",
-        cod."accessoriesHelmet",
-        cod."accessoriesRaincoat",
-        cod."accessoriesHelmetFull",
-        cod."fromVoltage",
-        cod."toVoltage",
-        cod."fromSoc",
-        cod."toSoc"
+        cod."rowId"
+        , cod."parentDocId"
+        , cod."prodId"
+        , cod.price
+        , cod.qty
+        , cod."catId"
+        , cod."plusInsurance"
+        , cod."carNo"
+        , cod."prodPriceRowId"
+        , cod."prodStockRowId"
+        , cod."insurancePrice"
+        , cod."accessoriesHelmet"
+        , cod."accessoriesRaincoat"
+        , cod."accessoriesHelmetFull"
+        , cod."fromVoltage"
+        , cod."toVoltage"
+        , cod."fromSoc"
+        , cod."toSoc"
     FROM {{ ref('client_order_detail') }} AS cod
 )
 

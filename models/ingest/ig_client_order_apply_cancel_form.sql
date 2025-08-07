@@ -9,22 +9,22 @@
 
 WITH base AS (
     SELECT
-        coac."applyDate",
-        coac."applyStatus",
-        coac."moneyType",
-        coac.note,
-        coac."updateDate",
-        coac.updator,
-        coac."clientUserBankName",
-        coac."clientUserBankAccount",
-        coac."plusFee",
-        coac."clientUserBankBranch",
-        coac."clientUserName",
-        coac.refund,
-        coac."cancelReasonType",
-        coac."userDisName",
-        coac."userPhone",
-        CAST(coac."clientOrderId" AS VARCHAR(45)) AS "clientOrderId"
+        coac."applyDate"
+        , coac."applyStatus"
+        , coac."moneyType"
+        , coac.note
+        , coac."updateDate"
+        , coac.updator
+        , coac."clientUserBankName"
+        , coac."clientUserBankAccount"
+        , coac."plusFee"
+        , coac."clientUserBankBranch"
+        , coac."clientUserName"
+        , coac.refund
+        , coac."cancelReasonType"
+        , coac."userDisName"
+        , coac."userPhone"
+        , CAST(coac."clientOrderId" AS VARCHAR(45)) AS "clientOrderId"
 
     FROM {{ ref('client_order_apply_cancel_form') }} AS coac
 )

@@ -10,8 +10,8 @@
 -- creating master data of order
 WITH auto_cancel_order AS (
     SELECT
-        co."clientOrderId",
-        1 AS is_auto_canceled
+        co."clientOrderId"
+        , 1 AS is_auto_canceled
     FROM {{ ref('ig_client_order') }} AS co
     LEFT JOIN {{ ref('ig_client_order_history') }} AS coh
         ON co."clientOrderId" = coh."clientOrderId"
@@ -22,42 +22,43 @@ WITH auto_cancel_order AS (
 
 base AS (
     SELECT
-        co."clientOrderId",
-        co."clientUserId",
-        co."createDate",--訂單預約時間
-        co."updateDate",
-        pc."isPbgnProd", --車種類型
-        pc.prod_cat_name, --租用車款
-        co.price, --實際租借時長
-        co."sDate" AS renting_start_date, --訂單金額
-        s.area_name, --租借方案
-        s.store_name,--店家類型
-        -- coq."usePurpose" AS use_purpose, --租車的時段
-        -- cot."moneyType" AS payment_method, --區域
-        co."sDate" AS expect_renting_time, --站點
-        (co."realEndDate" - co."realEndDate") AS renting_period, --預約原因
-        CASE
-            WHEN co."rentDateType" = '1' THEN '長租'
-            ELSE '短租'
-        END AS renting_type,--付款方式
-        CASE
-            WHEN s."isNoStaffStore" = 'F' THEN '無人'
-            ELSE '門市'
-        END AS store_type, --租車的時段
-        COALESCE(p."disName", '') AS promotion_code_name, --優惠券名稱
-        CASE
+        co."clientOrderId"
+        , co."clientUserId"
+        , scu.partition
+        , co."createDate"
+        , co."updateDate"
+        , (CASE WHEN pc."isPbgnProd" = 'T' THEN true ELSE false END) AS "isPbgnProd" -- 車種類型
+        , pc.prod_cat_name -- 租用車款
+        , co.price -- 訂單總金額
+        , co."sDate" -- 租車開始時間
+        , s.area_name -- 租車地區
+        , s.store_name -- 租車門市
+        , coq."usePurpose" -- 租車用途
+        , co."eDate" -- 租車結束時間
+        , (co."realEndDate" - co."realStartDate") AS renting_period -- 實際租借時長
+        , CASE
+            WHEN co."rentDateType" = '1' THEN 1 -- 短租
+            WHEN co."rentDateType" = '2' THEN 2 -- 長租/環島
+            ELSE 0 --測試資料看到有NULL以防萬一
+        END AS renting_type -- 租借方案(短租/長租)
+        , CASE
+            WHEN s."isNoStaffStore" = 'F' THEN true
+            ELSE false
+        END AS store_type -- 店家類型(無人/門市)
+        , COALESCE(p."disName", '') AS promotion_code_name
+        , CASE
             WHEN cocf."clientOrderId" IS NOT NULL THEN 1 ELSE 0
-        END AS is_applied_cancel, --是(1)/否(0) 為申請取消
-        CASE WHEN aco."is_auto_canceled" = 1 THEN 1 ELSE 0 END AS is_auto_canceled, --是(1)/否(0) 為自動取消單
-        CASE
+        END AS is_applied_cancel
+        , CASE WHEN aco."is_auto_canceled" = 1 THEN 1 ELSE 0 END AS is_auto_canceled -- 自動取消訂單
+        , CASE
             WHEN co.flow IN ('1100', '1000') THEN 1
             ELSE 0
-        END AS is_canceled, --是(1)/否(0) 為已訂單取消
-        CASE
+        END AS is_canceled
+        , CASE
             WHEN co."promotionCode" IS NOT NULL THEN 1
             ELSE 0
-        END AS promotion_code_usage_cnt,--是(1)/否(0) 使用優惠券
-        COALESCE(cod."accessoriesRaincoat", 0) AS "accessoriesRaincoat" --加購雨衣次數
+        END AS promotion_code_usage_cnt -- 優惠券使用次數
+        , COALESCE(cod."accessoriesRaincoat", 0) AS "accessoriesRaincoat" -- 雨衣加購次數
     FROM {{ ref('ig_client_order') }} AS co
     LEFT JOIN
         {{ ref('stg_prod_cat') }} AS pc
@@ -80,6 +81,7 @@ base AS (
         {{ ref('ig_client_order_apply_cancel_form') }} AS cocf
         ON
             co."clientOrderId" = cocf."clientOrderId"
+    JOIN {{ ref('stg_client_user') }} AS scu ON co."clientUserId" = scu."clientUserId"
 
 )
 

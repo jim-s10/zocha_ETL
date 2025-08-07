@@ -9,8 +9,8 @@
 
 WITH base AS (
     SELECT
-        a."areaId",
-        a."disName"
+        a."areaId"
+        , a."disName"
     FROM {{ ref('area') }} AS a
 )
 

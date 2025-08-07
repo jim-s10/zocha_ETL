@@ -8,12 +8,12 @@
 }}
 WITH base AS (
     SELECT
-        p."prodId",
-        p."clientOrderId",
-        p."prodCatId",
-        pc."disName" AS prod_cat_name, --租用車款
-        pc."isPbgnProd", -- 車種類型
-        p."updateDate"
+        p."prodId"
+        , p."clientOrderId"
+        , p."prodCatId"
+        , pc."disName" AS prod_cat_name --租用車款
+        , pc."isPbgnProd" -- 車種類型
+        , p."updateDate"
     FROM {{ ref('ig_prod') }} AS p
     INNER JOIN
         {{ ref('ig_prod_cat') }} AS pc

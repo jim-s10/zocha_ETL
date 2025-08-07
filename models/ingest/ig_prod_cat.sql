@@ -9,16 +9,16 @@
 
 WITH base AS (
     SELECT
-        "prodCatId",
-        "disName",
-        updator,
-        "updateDate",
-        descp,
-        -- "pic",
-        status,
-        "rentDateType",
-        "isEcoProd",
-        "isPbgnProd"
+        "prodCatId"
+        , "disName"
+        , updator
+        , "updateDate"
+        , descp
+        --, "pic"
+        , status
+        , "rentDateType"
+        , "isEcoProd"
+        , "isPbgnProd"
     FROM {{ ref('prod_cat') }}
 )
 

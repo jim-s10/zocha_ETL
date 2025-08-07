@@ -9,20 +9,21 @@
 
 WITH base AS (
     SELECT
-        "clientUserId",
-        "disName",
-        phone,
-        sex,
-        birthday,
-        addr,
-        email,
-        country,
-        "createDate",
-        "updateDate",
-        date_part('month', birthday) AS month_of_birthday,
-        date_part('year', current_date)
-        - date_part('year', birthday) AS years_old,
-        "lineId"
+        "clientUserId"
+        , {{ get_user_partition('"clientUserId"', '"disName"') }} --take 2 field into hashing to prevent uneven distribution of partitions.
+        , "disName"
+        , phone
+        , sex
+        , birthday
+        , addr
+        , email
+        , country
+        , "createDate"
+        , "updateDate"
+        , date_part('month', birthday) AS month_of_birthday
+        , (date_part('year', current_date) - date_part('year', birthday)) AS age
+        , "lineId"
+        , "registerDate"
     FROM {{ ref('ig_client_user') }}
 )
 

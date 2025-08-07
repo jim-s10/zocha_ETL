@@ -11,17 +11,17 @@
 -- Fixing typo: cleintOrderId -> clientOrderId and ensuring varchar(45)
 WITH base AS (
     SELECT
-        cupt."rowId",
-        cupt."clientUserId",
-        cupt."promotionRowId",
-        cupt.used,
-        cupt."getDate",
-        cupt."usedDate",
-        cupt."updateDate",
-        cupt.updator,
-        cupt."endDate",
-        cupt.phone,
-        CAST(cupt."cleintOrderId" AS VARCHAR(45)) AS "clientOrderId"
+        cupt."rowId"
+        , cupt."clientUserId"
+        , cupt."promotionRowId"
+        , cupt.used
+        , cupt."getDate"
+        , cupt."usedDate"
+        , cupt."updateDate"
+        , cupt.updator
+        , cupt."endDate"
+        , cupt.phone
+        , CAST(cupt."cleintOrderId" AS VARCHAR(45)) AS "clientOrderId"
     FROM {{ ref('client_user_promotion_trans') }} AS cupt
 )
 

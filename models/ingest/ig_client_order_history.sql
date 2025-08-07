@@ -9,12 +9,12 @@
 
 WITH base AS (
     SELECT
-        coh."clientOrderHistoryId",
-        coh."clientOrderId",
-        coh."updateDate",
-        coh.flow,
-        coh.updator,
-        coh.note
+        coh."clientOrderHistoryId"
+        , coh."clientOrderId"
+        , coh."updateDate"
+        , coh.flow
+        , coh.updator
+        , coh.note
     FROM {{ ref('client_order_history') }} AS coh
 )
 
