@@ -41,3 +41,4 @@ storeId,disName,addr,areaId,gpsLat,gpsLng,createDate,phone,status,pic,updateDate
 48,Supefast E-bikes 台北西門店,高雄市三民區建國二路215號,16,,,,072367771,1,,,,,T,F,F,F,F,F,,,MOFUNV2,F,,F,F,Supefast E-bikes 台北西門店,T,,Supefast E-bikes 台北西門店,T,,F,,F,T,F,F,,,,none,F
 50,測試店家停業,test,1,,,,test-26559021,0,,,,,T,T,F,F,F,F,,,MOFUN,F,,F,F,測試店家停業,F,,測試店家停業,T,,F,,F,T,F,F,,,,none,F
 51,ZOCHA-廠商測試用,0,1,,,2020/09/,0,1,store/1-9c83610a0ea5f7b6d98.png,20201213092329,admin,,T,T,T,F,F,F,tlchenj@gmail.com,https://hooks.slack.com/services/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,HKENTING,F,當車輛外觀維修金額1萬元以下時，承租人享有車損免賠償之保障(MOFUN負擔)，若維修金額超出1萬元以上，則由承租人負擔差額，本公司車輛維修之費用皆依原廠報價單為依據，方案效力期間為租用車輛期間。,ID,F,ZOCHA-廠商測試用,F,1.出發前72小時以上的訂單訂金會扣除匯款手續費後全額退款。<br/>2.72小時以內的訂單，訂金不退款。(因不可抗力因素影響不在此限),ZOCHA-廠商測試用,T,,F,,T,T,F,F,,,,none,F
+52,社區大樓共享機車-測試,台北市萬華區漢口街二段74巷4號1樓,1,25.045938781327695,121.5046423488893,,02-2655-9021,1,,,,,T,T,T,F,F,F,,,UP,T,,F,F,社區大樓共享機車,T,,社區大樓共享機車,T,,F,1,T,T,F,F,,,,none,F
