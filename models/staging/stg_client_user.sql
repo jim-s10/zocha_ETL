@@ -13,11 +13,15 @@ WITH base AS (
         , {{ get_user_partition('"clientUserId"', '"disName"') }} --take 2 field into hashing to prevent uneven distribution of partitions.
         , "disName"
         , phone
-        , sex
+        , CASE
+            WHEN sex = '1' THEN '男'
+            WHEN sex = '2' THEN '女'
+            ELSE '未揭露'
+        END AS sex
         , birthday
         , addr
         , email
-        , country
+        , coalesce(country, '') AS country
         , "createDate"
         , "updateDate"
         , date_part('month', birthday) AS month_of_birthday

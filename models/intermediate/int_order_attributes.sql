@@ -27,23 +27,29 @@ base AS (
         , scu.partition
         , co."createDate"
         , co."updateDate"
-        , (CASE WHEN pc."isPbgnProd" = 'T' THEN true ELSE false END) AS "isPbgnProd" -- 車種類型
+        , (CASE WHEN pc."isPbgnProd" = 'T' THEN '電車' ELSE '油車' END) AS "isPbgnProd" -- 車種類型
         , pc.prod_cat_name -- 租用車款
         , co.price -- 訂單總金額
         , co."sDate" -- 租車開始時間
         , s.area_name -- 租車地區
         , s.store_name -- 租車門市
-        , coq."usePurpose" -- 租車用途
+        , CASE
+            WHEN coq."usePurpose" = '1' THEN '旅遊'
+            WHEN coq."usePurpose" = '2' THEN '出差'
+            WHEN coq."usePurpose" = '3' THEN '環島'
+            WHEN coq."usePurpose" = '4' THEN '試乘Gogoro'
+            WHEN coq."usePurpose" = '5' THEN '活動需求'
+        END AS "usePurpose" -- 預約原因
         , co."eDate" -- 租車結束時間
-        , (co."realEndDate" - co."realStartDate") AS renting_period -- 實際租借時長
+        , EXTRACT(EPOCH FROM (co."realEndDate" - co."realStartDate")) / 3600 AS renting_period -- 實際租借時長
         , CASE
             WHEN co."rentDateType" = '1' THEN '短租' -- 短租
             WHEN co."rentDateType" = '2' THEN '長租/環島' -- 長租/環島
             ELSE '其他' -- 其他
         END AS renting_type -- 租借方案(短租/長租)
         , CASE
-            WHEN s."isNoStaffStore" = 'F' THEN false
-            ELSE true
+            WHEN s."isNoStaffStore" = 'F' THEN '門市'
+            ELSE '無人'
         END AS store_type -- 店家類型(無人/門市)
         , COALESCE(p."disName", '') AS promotion_code_name
         , CASE
